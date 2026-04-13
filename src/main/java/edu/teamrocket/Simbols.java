@@ -4,20 +4,20 @@ import java.util.EnumSet;
 
 public enum Simbols {
 
-    SPARE("/", (byte)10),
-    STRIKE("X", (byte)10),
-    FAUL("-", (byte)0);
+    SPARE('/', (byte)10),
+    STRIKE('X', (byte)10),
+    FAUL('-', (byte)0);
 
 
-    private String simbol;
+    private Character simbol;
     private Byte value;
 
-    private Simbols(String simbol, Byte value){
+    private Simbols(Character simbol, Byte value){
         this.simbol = simbol;
         this.value = value;
     }
 
-    public String getSimbol() {
+    public Character getSimbol() {
         return this.simbol;
     }
 
