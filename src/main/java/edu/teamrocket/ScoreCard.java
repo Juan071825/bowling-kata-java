@@ -34,51 +34,57 @@ public class ScoreCard {
     }*/
 
 
-        public Character[] frameCreator(Byte initialThrow, Byte numThrows){
-            Character[] frame = new Character[numThrows];
-            for ( Byte indexThrow = initialThrow; indexThrow < (initialThrow + 3); indexThrow++ ){
-                frame[initialThrow]
-            }
+    // crea un frame y le introduce los valores de la carta
+    private Character[] frameCreator(Byte initialThrow, Byte numThrows){
+        Character[] frame = new Character[numThrows];
+        for ( Byte index = 0; index < numThrows; index++ ){
+            frame[index] = extractThrow((byte)(initialThrow + index));
         }
+        return frame;
+    } 
+
+    
+
+
+
+
+
+
 
     public Character[][] frameListCreator(){
 
-        Character[][] match = new Character[10][];
-        Byte indexThrow;
+        Character[][] frames = new Character[10][];
+        Byte indexThrow = 0;
 
-        for(Byte indexMatch = 0; indexMatch < 10; indexMatch++){
-            Byte twoThrows = 2;
-            Byte oneThrow = 1;
+        for(Byte indexFrame = 0; indexFrame < 10; indexFrame++){
 
             // Calcula frames del 1 al 9.
-            if (indexMatch < 10){
+            if (indexFrame < 9){
                 if (extractThrow(indexThrow) != Simbols.STRIKE.getSimbol()){
-                    match[indexMatch] = new Character[2];
-                    match[indexMatch][0] = extractThrow(indexThrow);
-                    match[indexMatch][1] = extractThrow(indexThrow);
-                    indexThrow = (byte)(indexThrow + oneThrow);
+                    frames[indexFrame] = frameCreator(indexThrow, (byte)2);
+                    indexThrow = (byte)(indexThrow + 2);
                 } else {
-                    match[indexMatch] = new Character[1];
-                    match[indexMatch][0] = extractThrow(indexThrow);
-                    indexThrow = (byte)(indexThrow + twoThrows);
+                    frames[indexFrame] = frameCreator(indexThrow, (byte)1);
+                    indexThrow = (byte)(indexThrow + 1);
                 }
+
 
 
             } else {
                 if(extractThrow(indexThrow) != Simbols.STRIKE.getSimbol()){
-                    match[indexMatch] = new Character[2];
-                    match[indexMatch][0] = extractThrow(indexThrow);
-                    match[indexMatch][1] = extractThrow(indexThrow);
+                    frames[indexFrame] = new Character[2];
+                    frames[indexFrame][0] = extractThrow(indexThrow);
+                    frames[indexFrame][1] = extractThrow(indexThrow);
                 } else if (extractThrow((byte)(indexThrow + oneThrow)) == Simbols.SPARE.getSimbol()) {
-                    match[indexMatch] = new Character[3];
-                    match[indexMatch][0] = extractThrow(indexThrow);
-                    match[indexMatch][1] = extractThrow(indexThrow);
-                    match[indexMatch][2] = extractThrow(indexThrow);                    
+                    frames[indexFrame] = new Character[3];
+                    frames[indexFrame][0] = extractThrow(indexThrow);
+                    frames[indexFrame][1] = extractThrow(indexThrow);
+                    frames[indexFrame][2] = extractThrow(indexThrow);                    
                 } else {
-                    match[indexMatch] = new Character[3];
-                    match[indexMatch][0] = extractThrow(indexThrow);
-                    match[indexMatch][1] = extractThrow(indexThrow);
-                    match[indexMatch][2] = extractThrow(indexThrow);
+                    frames[indexFrame] = new Character[3];
+                    frames[indexFrame][0] = extractThrow(indexThrow);
+                    frames[indexFrame][1] = extractThrow(indexThrow);
+                    frames[indexFrame][2] = extractThrow(indexThrow);
                 }
             }
         }
