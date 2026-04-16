@@ -52,9 +52,9 @@ public class ScoreCard {
 
 
     public Character[][] frameListCreator(){
-
         Character[][] frames = new Character[10][];
         Byte indexThrow = 0;
+        Byte nextThrow = (byte)(indexThrow + 1);
 
         for(Byte indexFrame = 0; indexFrame < 10; indexFrame++){
 
@@ -68,30 +68,18 @@ public class ScoreCard {
                     indexThrow = (byte)(indexThrow + 1);
                 }
 
-
-
+                // Frame 10
             } else {
-                if(extractThrow(indexThrow) != Simbols.STRIKE.getSimbol()){
-                    frames[indexFrame] = new Character[2];
-                    frames[indexFrame][0] = extractThrow(indexThrow);
-                    frames[indexFrame][1] = extractThrow(indexThrow);
-                } else if (extractThrow((byte)(indexThrow + oneThrow)) == Simbols.SPARE.getSimbol()) {
-                    frames[indexFrame] = new Character[3];
-                    frames[indexFrame][0] = extractThrow(indexThrow);
-                    frames[indexFrame][1] = extractThrow(indexThrow);
-                    frames[indexFrame][2] = extractThrow(indexThrow);                    
+                if(extractThrow(indexThrow) == Simbols.STRIKE.getSimbol() || extractThrow(nextThrow) == Simbols.SPARE.getSimbol()){
+                    frames[indexFrame] = frameCreator(indexThrow, (byte)3);
+                    indexThrow = (byte)(indexThrow + 3);
                 } else {
-                    frames[indexFrame] = new Character[3];
-                    frames[indexFrame][0] = extractThrow(indexThrow);
-                    frames[indexFrame][1] = extractThrow(indexThrow);
-                    frames[indexFrame][2] = extractThrow(indexThrow);
+                    frames[indexFrame] = frameCreator(indexThrow, (byte)2);
+                    indexThrow = (byte)(indexThrow + 2);                     
                 }
             }
         }
-
-        return frame_list;
-
-
+        return frames;
     }
 
 
