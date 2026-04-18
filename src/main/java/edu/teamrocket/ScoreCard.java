@@ -13,9 +13,11 @@ public class ScoreCard {
         return this.card;
     }
 
+
     public Integer numThrows(){
         return getCard().length();
     }
+
 
     public Character extractThrow(Byte index){
         try{
@@ -27,11 +29,11 @@ public class ScoreCard {
     }
 
 
-
     /*public Character[] selectFrame (Character[][] match, Byte index){
         Character[] frame = match[index];
         return frame;
     }*/
+
 
 
     // crea un frame y le introduce los valores de la carta
@@ -42,13 +44,6 @@ public class ScoreCard {
         }
         return frame;
     } 
-
-    
-
-
-
-
-
 
 
     public Character[][] frameListCreator(){
@@ -81,6 +76,104 @@ public class ScoreCard {
         }
         return frames;
     }
+
+
+
+
+
+
+
+    private Boolean hasSimbol(Character[] frame, Simbols simbol){
+        for (Character playerthrow : frame){
+            if (playerthrow == simbol.getSimbol()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private Boolean hasSimbol(Character[] frame){
+        for (Character playerthrow : frame){
+            if (playerthrow == Simbols.STRIKE.getSimbol()
+            || playerthrow == Simbols.SPARE.getSimbol()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private Byte numThrowFrame(Character[] frame){
+        return (byte)(frame.length);
+    }
+
+    /*private Byte scoreFrame(Character[] frame){
+        for(Character playerthrow : frame){
+            int score += 
+        }
+    }*/
+
+    private Byte throwValue(Character playerthrow){
+        if(playerthrow == Simbols.STRIKE.getSimbol()){
+            return Simbols.STRIKE.getValue();
+        } else if (playerthrow == Simbols.SPARE.getSimbol()){
+            return Simbols.SPARE.getValue();
+        } else if (playerthrow == Simbols.FAUL.getSimbol()){
+            return Simbols.FAUL.getValue();
+        } else{
+            Byte playerthrowScore = (byte)(playerthrow - '0');
+            return playerthrowScore;
+        }
+    }
+
+ 
+    public Byte Score(Character[][] frames){
+        Integer score = 0;
+
+        for (Byte frame = 0; frame < frames.length - 1; frame++){
+
+
+            if(hasSimbol(frames[frame], Simbols.STRIKE)){
+                score += throwValue(frames[frame][0]);
+                
+                if(numThrowFrame(frames[frame + 1]) == 1){
+                    score += throwValue(frames[frame + 1][0])
+                           + throwValue(frames[frame + 2][0]);
+                } else{
+                    score += throwValue(frames[frame + 1][0])
+                           + throwValue(frames[frame + 1][1]);
+                }
+
+
+
+
+
+
+
+            } else if (hasSimbol(frames[frame], Simbols.SPARE)){
+                score += throwValue(frames[frame][1]) 
+                       + throwValue(frames[frame + 1][0]);
+            } else{
+                for (Character playerthrow : frames[frame]){
+                    score += throwValue(playerthrow);
+                }
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+        return score;
+    }
+
 
 
 }
