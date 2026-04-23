@@ -96,6 +96,8 @@ public class ScoreCard {
     }
 
 
+
+
     private Byte numThrowFrame(Character[] frame){
         return (byte)(frame.length);
     }
@@ -108,13 +110,43 @@ public class ScoreCard {
             return Simbols.SPARE.getValue();
         } else if (playerthrow == Simbols.FAUL.getSimbol()){
             return Simbols.FAUL.getValue();
-        } else{
+        } else {
             Byte playerthrowScore = (byte)(playerthrow - '0');
             return playerthrowScore;
         }
     }
 
- 
+
+    private Byte simbolIndex(Character[] frame, Simbols simbol){
+        for (Byte index = 0; index < frame.length; index++){
+            if (frame[index] == simbol.getSimbol()){
+                return index;
+            }
+        }
+        return null;
+    }
+
+
+    private Integer sumFrameThrows(Character[] frame){
+
+        Integer sumFrameThrows = 0;
+        if(hasSimbol(frame, Simbols.SPARE)){
+            Byte simbolIndex = simbolIndex(frame, Simbols.SPARE);
+            for(Byte indexThrow = 0; indexThrow < frame.length; indexThrow++){
+                if(indexThrow != simbolIndex - 1){
+                    sumFrameThrows += throwValue(frame[indexThrow]);
+                }
+            }
+        } else {
+            for (Character playerthrow : frame){
+                sumFrameThrows += throwValue(playerthrow);
+            }
+        }
+        return sumFrameThrows;
+    }
+
+
+
     public Integer Score(Character[][] frames){
         Integer score = 0;
 
@@ -123,64 +155,34 @@ public class ScoreCard {
             // Frame 1 a 9
             if(indexFrame < 9){   
                 if(hasSimbol(frames[indexFrame], Simbols.STRIKE)){
-                    score += throwValue(frames[indexFrame][0]);
+                    score += sumFrameThrows(frames[indexFrame]);
                     if(numThrowFrame(frames[indexFrame + 1]) == 1){
-                        score += throwValue(frames[indexFrame + 1][0])
+                        score += sumFrameThrows(frames[indexFrame + 1])
                                + throwValue(frames[indexFrame + 2][0]);
-
-                    } else{
-                        if(hasSimbol(frames[indexFrame +1], Simbols.SPARE)){
-                            score += throwValue(frames[indexFrame + 1][1]);
-                        }else{
-                            score += throwValue(frames[indexFrame + 1][0])
-                                   + throwValue(frames[indexFrame + 1][1]);
-                        }
+                    } else {
+                       if(frames[indexFrame + 1][1] == Simbols.SPARE.getSimbol()) {
+                        score += throwValue(frames[indexFrame + 1][1]);
+                       } else {
+                            score += throwValue(frames[indexFrame + 1][0]) 
+                                  + throwValue(frames[indexFrame + 1][1]);
+                       }
                     }
 
                 } else if (hasSimbol(frames[indexFrame], Simbols.SPARE)){
-                    score += throwValue(frames[indexFrame][1]) 
+                    score += sumFrameThrows(frames[indexFrame]) 
                            + throwValue(frames[indexFrame + 1][0]);
-
                 } else{
-                    for (Character playerthrow : frames[indexFrame]){
-                        score += throwValue(playerthrow);
-                    }
+                    score += sumFrameThrows(frames[indexFrame]);
                 }
             } 
+
+
+
             // frame 10
             else {
-
-                if(numThrowFrame(frames[indexFrame]) == 2){
-                    score += throwValue(frames[indexFrame][0]) 
-                           + throwValue(frames[indexFrame][1]);
-                } 
-                else {
-
-                    if(hasSimbol(frames[indexFrame], Simbols.SPARE)){
-
-                        if(frames[indexFrame][0] == Simbols.STRIKE.getSimbol()){
-                            score += throwValue(frames[indexFrame][0])
-                               + throwValue(frames[indexFrame][2]);
-                        } else{
-                            score += throwValue(frames[indexFrame][1])
-                               + throwValue(frames[indexFrame][2]);
-                        }
-
-                        
-
-
-
-                    } else {
-
-                        score += throwValue(frames[indexFrame][0])
-                               + throwValue(frames[indexFrame][1])
-                               + throwValue(frames[indexFrame][2]);
-
-                    }
-                }
+                score += sumFrameThrows(frames[indexFrame]);
             }
         }
         return score;
     }
-
 }
