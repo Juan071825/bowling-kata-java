@@ -80,7 +80,7 @@ public class ScoreCard {
     }
 
 
-    private Byte numThrowFrame(Character[] frame){
+    private Byte numFrameThrows(Character[] frame){
         return (byte)(frame.length);
     }
 
@@ -133,7 +133,8 @@ public class ScoreCard {
         if(hasSimbol(frame, Simbols.SPARE)){
             Byte simbolIndex = simbolIndex(frame, Simbols.SPARE);
             for(Byte indexThrow = 0; indexThrow < index; indexThrow++){
-                if(indexThrow != simbolIndex - 1){
+                if(indexThrow == simbolIndex - 1 && index > 1){
+                } else {
                     sumFrameThrows += throwValue(frame[indexThrow]);
                 }
             }
@@ -155,16 +156,16 @@ public class ScoreCard {
             if(indexFrame < 9){   
                 if(hasSimbol(frames[indexFrame], Simbols.STRIKE)){
                     score += sumFrameThrows(frames[indexFrame]);
-                    if(numThrowFrame(frames[indexFrame + 1]) == 1){
+                    if(numFrameThrows(frames[indexFrame + 1]) == 1){
                         score += sumFrameThrows(frames[indexFrame + 1])
-                               + throwValue(frames[indexFrame + 2][0]);
+                               + sumFrameThrows(frames[indexFrame + 2], (byte)1);
                     } else {
                        score += sumFrameThrows(frames[indexFrame + 1], (byte)2);
                     }
 
                 } else if (hasSimbol(frames[indexFrame], Simbols.SPARE)){
                     score += sumFrameThrows(frames[indexFrame]) 
-                           + throwValue(frames[indexFrame + 1][0]);
+                           + sumFrameThrows(frames[indexFrame + 1], (byte)1);
                 } else{
                     score += sumFrameThrows(frames[indexFrame]);
                 }
