@@ -29,7 +29,7 @@ public class ScoreCard {
     }
 
     
-    // crea un frame y le introduce los valores de la carta
+    // crea un frame y le introduce los valores seleccionados de la carta
     private Character[] frameCreator(Byte initialThrow, Byte numThrows){
         Character[] frame = new Character[numThrows];
         for ( Byte index = 0; index < numThrows; index++ ){
@@ -70,11 +70,6 @@ public class ScoreCard {
     }
 
 
-
-
-
-
-
     private Boolean hasSimbol(Character[] frame, Simbols simbol){
         for (Character playerthrow : frame){
             if (playerthrow == simbol.getSimbol()){
@@ -83,19 +78,6 @@ public class ScoreCard {
         }
         return false;
     }
-
-
-    private Boolean hasSimbol(Character[] frame){
-        for (Character playerthrow : frame){
-            if (playerthrow == Simbols.STRIKE.getSimbol()
-            || playerthrow == Simbols.SPARE.getSimbol()){
-                return true;
-            }
-        }
-        return false;
-    }
-
-
 
 
     private Byte numThrowFrame(Character[] frame){
@@ -164,7 +146,6 @@ public class ScoreCard {
     } 
 
 
-
     public Integer Score(Character[][] frames){
         Integer score = 0;
 
@@ -188,8 +169,6 @@ public class ScoreCard {
                     score += sumFrameThrows(frames[indexFrame]);
                 }
             } 
-
-
 
             // frame 10
             else {
