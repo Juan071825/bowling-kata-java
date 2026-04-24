@@ -85,16 +85,12 @@ public class ScoreCard {
     }
 
 
-    private Byte throwValue(Character playerthrow){
-        if(playerthrow == Simbols.STRIKE.getSimbol()){
-            return Simbols.STRIKE.getValue();
-        } else if (playerthrow == Simbols.SPARE.getSimbol()){
-            return Simbols.SPARE.getValue();
-        } else if (playerthrow == Simbols.FAUL.getSimbol()){
-            return Simbols.FAUL.getValue();
-        } else {
-            Byte playerthrowScore = (byte)(playerthrow - '0');
-            return playerthrowScore;
+    private Byte throwValue(Character playerThrow){
+        switch (playerThrow){
+           case 'X' : return Simbols.STRIKE.getValue();
+           case '/' : return Simbols.SPARE.getValue();
+           case '-' : return Simbols.FAUL.getValue();
+           default : return (byte)(playerThrow - '0');
         }
     }
 
