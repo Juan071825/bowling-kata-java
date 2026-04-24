@@ -145,6 +145,24 @@ public class ScoreCard {
         return sumFrameThrows;
     }
 
+    private Integer sumFrameThrows(Character[] frame, Byte index){
+
+        Integer sumFrameThrows = 0;
+        if(hasSimbol(frame, Simbols.SPARE)){
+            Byte simbolIndex = simbolIndex(frame, Simbols.SPARE);
+            for(Byte indexThrow = 0; indexThrow < index; indexThrow++){
+                if(indexThrow != simbolIndex - 1){
+                    sumFrameThrows += throwValue(frame[indexThrow]);
+                }
+            }
+        } else {
+            for (Byte indexThrow = 0; indexThrow < index; indexThrow++){
+                sumFrameThrows += throwValue(frame[indexThrow]);
+            }
+        }
+        return sumFrameThrows;
+    } 
+
 
 
     public Integer Score(Character[][] frames){
@@ -160,12 +178,7 @@ public class ScoreCard {
                         score += sumFrameThrows(frames[indexFrame + 1])
                                + throwValue(frames[indexFrame + 2][0]);
                     } else {
-                       if(frames[indexFrame + 1][1] == Simbols.SPARE.getSimbol()) {
-                        score += throwValue(frames[indexFrame + 1][1]);
-                       } else {
-                            score += throwValue(frames[indexFrame + 1][0]) 
-                                  + throwValue(frames[indexFrame + 1][1]);
-                       }
+                       score += sumFrameThrows(frames[indexFrame + 1], (byte)2);
                     }
 
                 } else if (hasSimbol(frames[indexFrame], Simbols.SPARE)){
